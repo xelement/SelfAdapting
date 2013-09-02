@@ -170,7 +170,7 @@ public class SelfAdaptUtils {
 	/**
 	 * (自适应屏幕时)获取对应屏幕绘制时X方向上的坐标(left)
 	 * 
-	 * @see #getDrawX(float)
+	 * @see #getLengthX(float)
 	 * @param x
 	 *            实际像素值,比如480x800上x=150,则对应320x480上就不一定是150px了
 	 * @return
@@ -179,21 +179,11 @@ public class SelfAdaptUtils {
 		return (x * SelfAdapting.actualScale + SelfAdapting.screenOffsetX);
 	}
 
-	/**
-	 * 获取对应屏幕上的绝对位置坐标,如480x800上 x= 24 则将屏幕拉伸到600x1000时x=32 此时保证了比例不变
-	 * 
-	 * @see #getAdaptDrawX(float)
-	 * @param x
-	 * @return
-	 */
-	public static float getDrawX(float x) {
-		return SelfAdapting.widthPixels / SelfAdapting.referenceScreenWidth * x;
-	}
 
 	/**
 	 * (自适应屏幕时) 获取对应屏幕绘制时Y方向上的坐标(top)
 	 * 
-	 * @see #getDrawY(float)
+	 * @see #getLengthY(float)
 	 * @param y
 	 * @return
 	 */
@@ -203,19 +193,30 @@ public class SelfAdaptUtils {
 
 	}
 
+
 	/**
-	 * 获取对应屏幕上的绝对位置坐标
+	 * 获取是水平方向上的绝对位置,如在480*800屏幕上一点的位置为宽的1/3处,则在600*1000屏幕上也将是1/3处
+	 * 如果有一点想让它在480*800屏和600*1000屏上显示的位置在相应屏的比例相同,则使用该方法
 	 * 
-	 * @see #getDrawX(float)
-	 * @see #getAdaptDrawY(float)
+	 * @param x
+	 * @return
+	 * @see #getLengthX(float)
+	 */
+	public static float getDrawX(float x) {
+		return x / SelfAdapting.referenceScreenWidth * SelfAdapting.widthPixels;
+	}
+
+	/**
+	 * 获取垂直方向上的绝对位置,如在480*800屏幕上一点的位置为宽的1/3处,则在600*1000屏幕上也将是1/3处
+	 * 如果有一点想让它在480*800屏和600*1000屏上显示的位置在相应屏的比例相同,则使用该方法
+	 * 
 	 * @param y
 	 * @return
 	 */
 	public static float getDrawY(float y) {
-		return SelfAdapting.heightPixels / SelfAdapting.referenceScreenHeight
-				* y;
+		return y / SelfAdapting.referenceScreenHeight
+				* SelfAdapting.heightPixels;
 	}
-
 
 	/**
 	 * 使用DrawText时,计算文字宽度
